@@ -124,5 +124,30 @@ public class AVLTree {
 		return node;
 
 	}
+	//Seth: print()
+	//Baseline code sourced from Abbas bfs() method.
+	/**
+	 * Returns a string containing all information in tree.
+	 * @return
+	 */
+	public String print() {
+		String result = new String();
+		if (root == null) {
+			return "Empty!";
+		}
+		Queue<Node> queue = new LinkedList<>();
+		queue.offer(root);
+		while (!queue.isEmpty()) {
+			Node node = queue.poll();
+			result += node.value + " ";
+			if (node.left != null) {
+				queue.offer(node.left);
+			}
+			if (node.right != null) {
+				queue.offer(node.right);
+			}
+		}
+		return result;
+	}
 
 }
