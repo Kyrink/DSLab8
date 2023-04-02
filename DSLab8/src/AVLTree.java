@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * AVLTree.java - simulates an AVL tree class
  * 
@@ -59,13 +62,13 @@ public class AVLTree {
 	}
 
 	private Node rightRotate(Node y) {
-		Node x = y.right;
-		Node T2 = x.left;
-		x.left = y;
-		y.right = T2;
-		y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
-		x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
-		return y;
+	    Node x = y.left;
+	    Node T2 = x.left;
+	    x.right = y;
+	    y.left = T2;
+	    y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
+	    x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+	    return x;
 	}
 
 	/**
@@ -74,7 +77,11 @@ public class AVLTree {
 	 * @param value the value you want added
 	 */
 	public void add(int value) {
-		add(root, value);
+	    if (root == null) {
+	        root = new Node(value);
+	    } else {
+	        root = add(root, value);
+	    }
 	}
 
 	/**
@@ -139,7 +146,7 @@ public class AVLTree {
 		queue.offer(root);
 		while (!queue.isEmpty()) {
 			Node node = queue.poll();
-			result += node.value + " ";
+			result += "(" + node.value + ", " + getBalance(node) + ") ";;
 			if (node.left != null) {
 				queue.offer(node.left);
 			}
@@ -148,6 +155,46 @@ public class AVLTree {
 			}
 		}
 		return result;
+	}
+	
+	public static void main(String[] args) {
+	    // Test 1: Right rotation (RR)
+	    System.out.println("Test 1: Right rotation (RR)");
+	    AVLTree tree1 = new AVLTree();
+	    tree1.add(9);
+	    tree1.add(5);
+	    tree1.add(10);
+	    tree1.add(7);
+        tree1.add(8);
+        tree1.add(12);
+        tree1.add(15);
+        tree1.add(20);
+        tree1.add(22);
+	    System.out.println(tree1.print());
+
+	    // Test 2: Left rotation (LL)
+	    System.out.println("Test 2: Left rotation (LL)");
+	    AVLTree tree2 = new AVLTree();
+	    tree2.add(20);
+	    tree2.add(30);
+	    tree2.add(50);
+	    System.out.println(tree2.print());
+
+	    // Test 3: Left-right rotation (LR)
+	    System.out.println("Test 3: Left-right rotation (LR)");
+	    AVLTree tree3 = new AVLTree();
+	    tree3.add(50);
+	    tree3.add(20);
+	    tree3.add(30);
+	    System.out.println(tree3.print());
+
+	    // Test 4: Right-left rotation (RL)
+	    System.out.println("Test 4: Right-left rotation (RL)");
+	    AVLTree tree4 = new AVLTree();
+	    tree4.add(20);
+	    tree4.add(50);
+	    tree4.add(30);
+	    System.out.println(tree4.print());
 	}
 
 }
